@@ -1,7 +1,16 @@
 import Section from "../utils/Section";
+import SectionHeading from "./Subcomponents/SectionHeading";
+import VirtualGrounds from "./Subcomponents/VirtualGrounds";
 
 const VirtualTryons = () => {
-  return <Section>Virtual tryons content will go here</Section>;
+  return (
+    <Section>
+      <SectionHeading subtitle="Virtual Tryons">
+        Try The Virtual Ground
+      </SectionHeading>
+      <VirtualGrounds />
+    </Section>
+  );
 };
 
 export default VirtualTryons;
