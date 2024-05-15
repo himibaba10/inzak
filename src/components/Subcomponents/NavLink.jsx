@@ -1,17 +1,12 @@
 import PropTypes from "prop-types";
-import CheckIcon from "../../utils/CheckIcon";
-
 const NavLink = ({ children }) => {
   return (
-    <li className="flex items-center gap-2">
-      <CheckIcon />
-      <span>{children}</span>
-    </li>
+    <li className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.4)]">{children}</li>
   );
 };
 
 NavLink.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.string,
 };
 
 export default NavLink;

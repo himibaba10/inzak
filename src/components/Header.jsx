@@ -1,19 +1,33 @@
+import { useState } from "react";
+import { useEffect } from "react";
+import NavLinks from "./Subcomponents/NavLinks";
+
 const Header = () => {
+  const [isHeaderFixed, setIsHeaderFixed] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const shouldFixHeader = scrollPosition > 100; // Adjust this value based on your needs
+
+      setIsHeaderFixed(shouldFixHeader);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="flex justify-between items-center px-10 py-5 absolute top-0 left-0 w-full">
+    <header
+      className={`flex justify-between items-center top-0 left-0 w-full px-2.5 md:px-10 py-5 transition-all duration-300 ease-in-out ${
+        isHeaderFixed ? "fixed bg-black/60 shadow-md" : "absolute"
+      } z-10`}
+    >
       <div className="text-5xl">LOGO</div>
-      <nav>
-        <ul className="flex gap-12 text-lg font-light text-white">
-          <li className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.4)]">Home</li>
-          <li className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.4)]">
-            Why Digital Playground
-          </li>
-          <li className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.4)]">
-            Virtual Tryons
-          </li>
-          <li className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.4)]">Contact</li>
-        </ul>
-      </nav>
+      <NavLinks />
     </header>
   );
 };
