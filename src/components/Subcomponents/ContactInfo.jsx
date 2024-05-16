@@ -11,7 +11,7 @@ const ContactInfo = () => {
       <div className="mt-10 mb-2">
         <a
           href="mailto:support@inzack.com"
-          className="text-3xl hover:underline hover:text-[#998dff]"
+          className="text-3xl hover:underline text-black hover:text-[#998dff] transition"
         >
           support@inzack.com
         </a>
@@ -20,7 +20,7 @@ const ContactInfo = () => {
         our Instagram link:{" "}
         <a
           href="https://www.instagram.com/myinzack"
-          className="hover:text-[#998dff]"
+          className="text-black hover:text-[#998dff] transition"
         >
           https://www.instagram.com/myinzack
         </a>

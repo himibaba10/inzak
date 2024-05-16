@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
 
 const ContactForm = () => {
-  const [state, handleSubmit] = useForm("{your-form-id}");
+  const [state, handleSubmit] = useForm("mbjnbwko");
 
   return (
     <form
@@ -16,7 +16,7 @@ const ContactForm = () => {
         <InputField title="Email" label="email" />
       </div>
       <InputArea />
-      <SubmitButton />
+      <SubmitButton state={state} />
       {state.succeeded && (
         <p className="mt-16 text-green-600 text-lg">Thank you for submitting</p>
       )}
