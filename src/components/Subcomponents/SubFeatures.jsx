@@ -5,7 +5,7 @@ import Feature3Image from "../../assets/Feature3.webp";
 
 const SubFeatures = () => {
   return (
-    <div className="features md:flex my-16">
+    <div className="features md:flex mb-16">
       <SubFeature title="Limitless Possibilities" image={Feature1Image}>
         In the digital age, the only limit is your imagination. From interactive
         storytelling to cutting-edge virtual reality experiences, we offer a

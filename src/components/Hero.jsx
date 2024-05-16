@@ -1,20 +1,21 @@
 import Section from "../utils/Section";
-import movingPerson from "../assets/moving-avatar 1.webp";
+import HeroImage from "../assets/trail3zgif.gif";
 import Hero_bg from "../assets/Hero_bg.webp";
 import IconList from "./Subcomponents/IconList";
 
 const Hero = () => {
   return (
     <div
+      id="hero"
       className="bg-no-repeat bg-cover md:bg-contain bg-top md:bg-right"
       style={{
         backgroundImage: `url(${Hero_bg})`,
       }}
     >
-      <Section className="pt-28 md:py-32">
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-2/3">
-            <h1 className="text-4xl md:text-6xl font-medium leading-tight">
+      <Section className="pt-28 md:py-40">
+        <div className="flex flex-col md:flex-row items-center gap-5">
+          <div className="md:w-7/12">
+            <h1 className="text-4xl md:text-5xl font-medium !leading-tight">
               Introducing Digital Playground to change ecommerce world
             </h1>
             <p className="mt-10 mb-4 text-2xl md:text-4xl font-light">
@@ -26,8 +27,8 @@ const Hero = () => {
               <IconList>Entertainment and Recreation</IconList>
             </ul>
           </div>
-          <div className="md:w-1/3">
-            <img className="ml-auto" src={movingPerson} alt="" />
+          <div className="md:w-5/12">
+            <img className="ml-auto w-full" src={HeroImage} alt="" />
           </div>
         </div>
       </Section>

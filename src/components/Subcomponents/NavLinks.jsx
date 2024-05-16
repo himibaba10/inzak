@@ -22,10 +22,18 @@ const NavLinks = () => {
         <ul
           className={`flex flex-col p-10 md:p-0 md:flex-row gap-5 md:gap-12 text-lg font-light text-white justify-end`}
         >
-          <NavLink>Home</NavLink>
-          <NavLink>Why Digital Playground</NavLink>
-          <NavLink>Virtual Tryons</NavLink>
-          <NavLink>Contact</NavLink>
+          <NavLink setIsMenuOpen={setIsMenuOpen} href="#hero">
+            Home
+          </NavLink>
+          <NavLink setIsMenuOpen={setIsMenuOpen} href="#why-digital-playground">
+            Why Digital Playground
+          </NavLink>
+          <NavLink setIsMenuOpen={setIsMenuOpen} href="#virtual-tryons">
+            Virtual Tryons
+          </NavLink>
+          <NavLink setIsMenuOpen={setIsMenuOpen} href="#contact">
+            Contact
+          </NavLink>
         </ul>
       </nav>
       <HamburgerMenu isMenuOpen={isMenuOpen} onClick={toggleMenu} />

@@ -1,14 +1,16 @@
-// eslint-disable-next-line react/prop-types
-function InputField({ title }) {
+import PropTypes from "prop-types";
+
+function InputField({ title, label }) {
   return (
     <div className="flex-1">
       <div className="relative mt-2">
         <input
           type="text"
-          name="name"
-          id="name"
+          name={label}
+          id={label}
           className="peer block w-full border-0 bg-gray-50 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6 p-2.5 outline-none italic"
           placeholder={title}
+          required
         />
         <div
           className="absolute inset-x-0 bottom-0 border-t border-gray-300 transition-all duration-100 peer-focus:border-t-2 peer-focus:border-indigo-600"
@@ -18,5 +20,10 @@ function InputField({ title }) {
     </div>
   );
 }
+
+InputField.propTypes = {
+  title: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};
 
 export default InputField;

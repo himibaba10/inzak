@@ -4,7 +4,7 @@ import VirtualGrounds from "./Subcomponents/VirtualGrounds";
 
 const VirtualTryons = () => {
   return (
-    <Section>
+    <Section id="virtual-tryons">
       <SectionHeading subtitle="Virtual Tryons">
         Try The Virtual Ground
       </SectionHeading>
