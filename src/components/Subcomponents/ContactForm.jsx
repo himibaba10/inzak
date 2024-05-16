@@ -11,7 +11,7 @@ const ContactForm = () => {
       onSubmit={handleSubmit}
       className="md:w-1/2 flex flex-col justify-center"
     >
-      <div className="flex justify-between gap-5 mb-5">
+      <div className="flex flex-col lg:flex-row justify-between gap-5 mb-5">
         <InputField title="Name" label="name" />
         <InputField title="Email" label="email" />
       </div>

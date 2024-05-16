@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const VirtualGround = ({ link }) => {
   return (
     <div className="flex-1">
-      <iframe className="w-full h-80" src={link}></iframe>
+      <iframe className="w-full h-60 lg:h-80" src={link}></iframe>
     </div>
   );
 };

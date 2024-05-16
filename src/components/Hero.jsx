@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <div
       id="hero"
-      className="bg-no-repeat bg-cover md:bg-contain bg-top md:bg-right"
+      className="bg-no-repeat bg-cover lg:bg-contain bg-top xl:bg-right"
       style={{
         backgroundImage: `url(${Hero_bg})`,
       }}
@@ -15,7 +15,7 @@ const Hero = () => {
       <Section className="pt-28 md:py-40">
         <div className="flex flex-col md:flex-row items-center gap-5">
           <div className="md:w-7/12">
-            <h1 className="text-4xl md:text-5xl font-medium !leading-tight">
+            <h1 className="text-4xl lg:text-5xl font-medium !leading-tight">
               Introducing Digital Playground to change ecommerce world
             </h1>
             <p className="mt-10 mb-4 text-2xl md:text-4xl font-light">

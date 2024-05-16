@@ -16,7 +16,7 @@ const ContactInfo = () => {
           support@inzack.com
         </a>
       </div>
-      <p className="font-light text-xl">
+      <p className="font-light sm:text-xl">
         our Instagram link:{" "}
         <a
           href="https://www.instagram.com/myinzack"

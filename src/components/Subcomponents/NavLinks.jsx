@@ -20,7 +20,7 @@ const NavLinks = () => {
         }`}
       >
         <ul
-          className={`flex flex-col p-10 md:p-0 md:flex-row gap-5 md:gap-12 text-lg font-light text-white justify-end`}
+          className={`flex flex-col p-10 md:p-0 md:flex-row gap-7 lg:gap-12 text-base lg:text-lg font-light text-white justify-end`}
         >
           <NavLink setIsMenuOpen={setIsMenuOpen} href="#hero">
             Home
