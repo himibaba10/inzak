@@ -27,13 +27,13 @@ const HamburgerMenu = ({ onClick, isMenuOpen }) => {
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke="#000"
+          stroke="black"
           className="w-8 h-8"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M3.75 9h16.5m-16.5 6.75h16.5"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
       )}

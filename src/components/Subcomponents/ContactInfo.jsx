@@ -1,4 +1,6 @@
 import SectionHeading from "./SectionHeading";
+import instaIcon from "../../assets/instagram.png";
+import linkedinIcon from "../../assets/Linkedin.png";
 
 const ContactInfo = () => {
   return (
@@ -16,13 +18,20 @@ const ContactInfo = () => {
           support@inzack.com
         </a>
       </div>
-      <p className="font-light sm:text-xl">
-        our Instagram link:{" "}
+      <p className="font-light sm:text-xl flex items-center gap-2 underline mt-4">
         <a
           href="https://www.instagram.com/myinzack"
+          target="_blank"
           className="text-black hover:text-[#998dff] transition"
         >
-          https://www.instagram.com/myinzack
+          <img className="w-full max-w-8" src={instaIcon} alt="" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/vijay-krishna-6681019"
+          target="_blank"
+          className="text-black hover:text-[#998dff] transition"
+        >
+          <img className="w-full max-w-8" src={linkedinIcon} alt="" />
         </a>
       </p>
     </div>
