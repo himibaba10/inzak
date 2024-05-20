@@ -26,7 +26,7 @@ const Header = () => {
         isHeaderFixed ? "fixed bg-black/60 shadow-md" : "absolute"
       } z-10`}
     >
-      <div className="text-3xl sm:text-5xl font-bold">INZACK</div>
+      <div className="text-3xl sm:text-5xl font-bold">Inzack</div>
       <NavLinks />
     </header>
   );
