@@ -9,13 +9,13 @@ const VirtualGround = ({ link, title }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    fetch("/virtualHTML/demoFirst1.html")
+    fetch("/virtualHTML/demoFirst3.2.html")
       .then((response) => response.text())
       .then((data) => {
         setHtmlContent(data);
       })
       .catch((error) => console.error("Error fetching the HTML file:", error));
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     if (htmlContent && containerRef.current) {
@@ -46,9 +46,6 @@ const VirtualGround = ({ link, title }) => {
         </div>
       )}
       <div className="flex-1 relative rounded-xl overflow-hidden">
-        <div className="absolute text-white z-0 w-full h-full flex justify-center items-center text-2xl">
-          Loading
-        </div>
         <div
           onClick={() => setIsOpen(true)}
           className="cursor-pointer absolute w-full h-full bg-black/50 flex justify-end items-end p-2 z-10"
@@ -58,7 +55,13 @@ const VirtualGround = ({ link, title }) => {
           </div>
           <h3 className="text-2xl font-medium text-white">{title}</h3>
         </div>
-        <div ref={containerRef}></div>
+        <div>
+          <img
+            className="h-72 w-full object-cover"
+            src="/virtualHTML/ajio.webp"
+            alt=""
+          />
+        </div>
       </div>
     </>
   );

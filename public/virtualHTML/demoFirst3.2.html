@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Popup with Babylon.js Scene</title>
+    <style>
+      #popup {
+        /* display: none; */
+        position: fixed;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 9999;
+      }
+
+      /* Styling for the popup */
+
+      /* Styling for the canvas */
+      #babylonCanvas {
+        width: 900px;
+        height: 600px; /* Set the height according to your scene */
+      }
+
+      @media (max-width: 768px) {
+        #babylonCanvas {
+          width: 300px;
+          height: 300px; /* Set the height according to your scene */
+        }
+      }
+
+      .placeholder-button {
+        position: absolute;
+        top: 45%;
+        left: 62%;
+        border-radius: 80px;
+        overflow: hidden;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        background-color: #ffffff;
+        color: white;
+        border: none;
+        border-radius: 120px;
+        cursor: pointer;
+        box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5); /* Adjust the shadow properties as needed */
+        transition: box-shadow 0.3s ease;
+      }
+      .placeholder-button:hover {
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.7); /* Adjust the shadow properties for hover effect */
+      }
+
+      .tooltip {
+        visibility: hidden;
+        background-color: #000;
+        color: #241e1e;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%; /* Position the tooltip above the button */
+        left: 50%;
+        transform: translateX(-50%); /* Center the tooltip horizontally */
+      }
+
+      .placeholder-button:hover.tooltip {
+        visibility: visible;
+        opacity: 1;
+        /* Show tooltip on hover */
+      }
+    </style>
+  </head>
+  <!--  onload="showPopup()" -->
+  <body>
+    <!-- Image as background -->
+    <h1 class="text-6xl">This is it</h1>
+
+    <!-- Popup window -->
+    <div id="popup">
+      <canvas id="babylonCanvas"></canvas>
+    </div>
+
+    <script>
+      // Function to show the popup window with Babylon.js scene
+      function showPopup() {
+        console.log("Popup works");
+        var popup = document.getElementById("popup");
+        popup.style.display = "block";
+
+        // Create Babylon.js scene
+        var canvas = document.getElementById("babylonCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+        //var scene = createScene(engine, canvas);
+
+        // Run the render loop
+        createScene().then((scene) => {
+          // Start the animation loop
+          scene.executeWhenReady(() => {
+            // Render the scene continuously
+            engine.runRenderLoop(() => {
+              scene.render();
+            });
+          });
+        });
+      }
+      showPopup();
+
+      // Function to hide the popup window
+      // function hidePopup() {
+      //   var popup = document.getElementById("popup");
+      //   popup.style.display = "none";
+
+      //   // Dispose Babylon.js engine when hiding the popup
+      //   var engine = document.getElementById("babylonCanvas").getEngine();
+      //   engine.dispose();
+      // }
+
+      // Function to create Babylon.js scene
+      async function createScene(engine, canvas) {
+        var scene = new BABYLON.Scene(engine);
+
+        //const environmentURL = "https://github.com/myinzack/largefilerepository/raw/main/Thubpanaroma.hdr"
+        const environmentURL = "/virtualHTML/cobblestone_street_night_4k.hdr";
+
+        console.log("Hii", environmentURL);
+
+        const orbitCamera = new BABYLON.ArcRotateCamera(
+          "orbitCamera",
+          1.5,
+          1.3,
+          500,
+          new BABYLON.Vector3(0, 75, 0),
+          scene
+        );
+        orbitCamera.attachControl();
+        orbitCamera.panningSensibility *= 0.25;
+        orbitCamera.angularSensibilityX *= 2;
+        orbitCamera.angularSensibilityY *= 2;
+
+        // Constrain the camera to prevent clipping
+        orbitCamera.lowerBetaLimit = 0;
+        orbitCamera.lowerRadiusLimit = 100;
+        orbitCamera.upperBetaLimit = 1.4;
+        orbitCamera.upperRadiusLimit = 1000;
+
+        // Auto rotation
+        orbitCamera.useAutoRotationBehavior = true;
+
+        // Load and set an environment map
+        // const environmentMap = BABYLON.CubeTexture.CreateFromPrefilteredData(environmentURL, scene);
+        const environmentMap = new BABYLON.HDRCubeTexture(
+          environmentURL,
+          scene,
+          1024,
+          false,
+          true,
+          false,
+          true
+        );
+        scene.environmentTexture = environmentMap;
+        scene.environmentIntensity = 0;
+
+        // Set texture filtering options to reduce blurriness
+        environmentMap.updateSamplingMode(
+          BABYLON.Texture.TRILINEAR_SAMPLINGMODE
+        );
+        // Create a skydome
+        const skydome = BABYLON.MeshBuilder.CreateBox(
+          "box",
+          {
+            size: 10000,
+            sideOrientation: BABYLON.Mesh.BACKSIDE,
+          },
+          scene
+        );
+        skydome.position.y = 5000;
+        skydome.isPickable = false;
+        skydome.receiveShadows = true;
+
+        // Sets the skydome in ground projection mode
+        const sky = new BABYLON.BackgroundMaterial("skyMaterial", scene);
+        sky.reflectionTexture = environmentMap;
+        sky.enableGroundProjection = true;
+        sky.projectedGroundRadius = 5000;
+        sky.projectedGroundHeight = 500;
+        skydome.material = sky;
+
+        // Fancy Image Processing setup
+        scene.imageProcessingConfiguration.exposure = 1.6;
+        scene.imageProcessingConfiguration.toneMappingEnabled = true;
+        scene.imageProcessingConfiguration.toneMappingType =
+          BABYLON.ImageProcessingConfiguration.TONEMAPPING_ACES;
+
+        // Setup a Light to cast shadows
+        const light = new BABYLON.DirectionalLight(
+          "light0",
+          new BABYLON.Vector3(-800, -1400, -1000),
+          scene
+        );
+        light.intensity = -4;
+        light.shadowMinZ = 1;
+        light.shadowMaxZ = 2500;
+        light.diffuse = new BABYLON.Color3(1, 0.9, 0.6);
+
+        const shadowGenerator = new BABYLON.ShadowGenerator(1500, light);
+        shadowGenerator.usePercentageCloserFiltering = true;
+        shadowGenerator.darkness = 0;
+
+        // And the shadow generator
+
+        const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+        const panel = new BABYLON.GUI.StackPanel();
+        panel.width = "220px";
+        panel.top = "-25px";
+        panel.horizontalAlignment =
+          BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        adt.addControl(panel);
+
+        const header = new BABYLON.GUI.TextBlock();
+        header.text = "Adjust your light shades";
+        header.height = "30px";
+        header.color = "white";
+        panel.addControl(header);
+
+        const slider = new BABYLON.GUI.Slider();
+        slider.minimum = -10;
+        slider.maximum = 30;
+        slider.borderColor = "black";
+        slider.color = "gray";
+        slider.background = "white";
+        slider.value = 1;
+        slider.height = "20px";
+        slider.width = "200px";
+        slider.onValueChangedObservable.add((value) => {
+          if (light) {
+            light.intensity = value;
+          }
+        });
+        panel.addControl(slider);
+
+        //var UiPanel = new BABYLON.GUI.StackPanel();
+
+        var button = BABYLON.GUI.Button.CreateSimpleButton("but1", "upload");
+        button.paddingTop = "10px";
+        button.top = "20px";
+        button.width = "100px";
+        button.height = "50px";
+        button.color = "white";
+        button.background = "green";
+        panel.addControl(button);
+        button.onPointerDownObservable.add(() => {
+          const input = document.createElement("input");
+          input.type = "file";
+
+          input.onchange = () => {
+            const files = Array.from(input.files);
+            const file = files[0];
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const contents = e.target.result;
+
+              const myTop = scene.getMeshByName("outfit_top");
+              //let myTop = scene.getNodeByName("Cube_primitive1");
+              let shirtTexUser = new BABYLON.Texture(contents, scene);
+              shirtTexUser.vScale = -1; // Rotate 45 degrees clockwise
+              myTop.material.albedoTexture = shirtTexUser;
+              //shirtTexUser.name = "shirtTexUser";
+              //myTop.material.albedoTexture = shirtTexUser;
+            };
+            reader.readAsDataURL(file);
+          };
+          input.click();
+        });
+        panel.addControl(button);
+
+        BABYLON.SceneLoader.ImportMesh(
+          "",
+          "https://fashion-desings.s3.ap-south-1.amazonaws.com/common/casuals/tshirts/userchoice/",
+          "idletshirt15.gltf",
+          scene,
+          function (meshes, sys, armatures) {
+            let parent = scene.getNodeById("__root__");
+            //alert(parent);
+            // Fix Quaternions
+            parent.rereceiveShadows = true;
+
+            parent.scaling.scaleInPlace(100.0);
+
+            //     let myTop = scene.getNodeByName("Cube_primitive1");
+            // const myTexture = new BABYLON.Texture("https://www.syndoncrafts.com/wp-content/uploads/2024/02/11401.jpg",scene);
+
+            //scene.debugLayer.show();
+
+            // Register to shadow generator
+            shadowGenerator.addShadowCaster(scene.getMeshById("__root__"));
+            //scene.debugLayer.show();
+          }
+        );
+
+        // Optimize the render loop
+        await scene.whenReadyAsync();
+        scene.performancePriority = BABYLON.ScenePerformancePriority.Aggressive;
+
+        return scene;
+      }
+    </script>
+  </body>
+</html>
