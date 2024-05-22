@@ -23,10 +23,12 @@ const WhyDigitalPlayground = () => {
               Why Digital Playground
             </SectionHeading>
             <p className="text-gray-600 leading-7 mt-8">
-              In the ever-evolving landscape of e-commerce, staying ahead of the
-              curve requires constant innovation. One such groundbreaking
-              concept is the emergence of digital playgrounds within e-commerce
-              portals
+              The digital playground for e-commerce portals is designed to
+              revolutionize the online shopping experience by introducing
+              virtual showrooms, interactive product exploration and enhance
+              customer engagement, with the integration of a digital playground
+              within e-commerce portals represents a cutting-edge approach to
+              enhance online shopping experience.
             </p>
           </div>
           <div className="flex-1">

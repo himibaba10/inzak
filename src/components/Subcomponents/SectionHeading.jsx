@@ -14,9 +14,9 @@ const SectionHeading = ({ children, subtitle, align = "items-center" }) => {
 };
 
 SectionHeading.propTypes = {
-  children: PropTypes.string.isRequired,
-  align: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  align: PropTypes.string,
+  subtitle: PropTypes.string,
 };
 
 export default SectionHeading;

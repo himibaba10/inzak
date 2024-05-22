@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Popup with Babylon.js Scene</title>
+    <style>
+      /* Styling for the popup */
+      #popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 9999;
+      }
+
+      /* Styling for the canvas */
+      #babylonCanvas {
+        width: 100%;
+        height: 500px; /* Set the height according to your scene */
+      }
+
+      .placeholder-button {
+        position: absolute;
+        top: 48%;
+        left: 68%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Image as background -->
+    <div
+      id="imageContainer"
+      style="width: 100%; height: 100%; position: relative"
+    >
+      <!-- Image -->
+      <img
+        src="/virtualHTML/ajio.webp"
+        alt="Image"
+        style="width: 100%; height: 100%"
+      />
+      <!-- Placeholder button -->
+      <button class="placeholder-button" onclick="showPopup('image.jpg')">
+        your Playground
+      </button>
+    </div>
+
+    <!-- Popup window -->
+    <div id="popup">
+      <canvas id="babylonCanvas"></canvas>
+      <button onclick="hidePopup()">Close</button>
+    </div>
+
+    <!-- <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.babylonjs.com/babylon.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"
+    ></script> -->
+
+    <script>
+      // Function to show the popup window with Babylon.js scene
+      function showPopup(imageSrc) {
+        var popup = document.getElementById("popup");
+        popup.style.display = "block";
+
+        // Create Babylon.js scene
+        var canvas = document.getElementById("babylonCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+        var scene = createScene(engine, canvas);
+
+        // Run the render loop
+        engine.runRenderLoop(function () {
+          scene.render();
+        });
+      }
+
+      // Function to hide the popup window
+      function hidePopup() {
+        var popup = document.getElementById("popup");
+        popup.style.display = "none";
+
+        // Dispose Babylon.js engine when hiding the popup
+        var engine = document.getElementById("babylonCanvas").getEngine();
+        engine.dispose();
+      }
+
+      // Function to create Babylon.js scene
+      function createScene(engine, canvas) {
+        var scene = new BABYLON.Scene(engine);
+
+        // Add your Babylon.js scene setup code here
+
+        // Example: Adding a camera and a light
+        var camera = new BABYLON.ArcRotateCamera(
+          "Camera",
+          -1,
+          Math.PI / 6,
+          9,
+          BABYLON.Vector3.Zero(),
+          scene
+        );
+        //camera.setTarget(new BABYLON.Vector3(0, 5, 0));
+
+        camera.attachControl(canvas, true);
+        var light = new BABYLON.HemisphericLight(
+          "light",
+          new BABYLON.Vector3(0, 1, 0),
+          scene
+        );
+        light.intensity = 6;
+
+        const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+        const panel = new BABYLON.GUI.StackPanel();
+        panel.width = "220px";
+        panel.top = "-25px";
+        panel.horizontalAlignment =
+          BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        adt.addControl(panel);
+
+        const header = new BABYLON.GUI.TextBlock();
+        header.text = "Night to Day";
+        header.height = "30px";
+        header.color = "white";
+        panel.addControl(header);
+
+        const slider = new BABYLON.GUI.Slider();
+        slider.minimum = 0;
+        slider.maximum = 1;
+        slider.borderColor = "black";
+        slider.color = "gray";
+        slider.background = "white";
+        slider.value = 1;
+        slider.height = "20px";
+        slider.width = "200px";
+        slider.onValueChangedObservable.add((value) => {
+          if (light) {
+            light.intensity = value;
+          }
+        });
+        panel.addControl(slider);
+
+        var UiPanel = new BABYLON.GUI.StackPanel();
+        UiPanel.width = "220px";
+        UiPanel.fontSize = "14px";
+        UiPanel.horizontalAlignment =
+          BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        UiPanel.verticalAlignment =
+          BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+        adt.addControl(UiPanel);
+
+        var button = BABYLON.GUI.Button.CreateSimpleButton("but1", "upload");
+        button.paddingTop = "10px";
+        button.top = "20px";
+        button.width = "100px";
+        button.height = "50px";
+        button.color = "white";
+        button.background = "green";
+        panel.addControl(button);
+        button.onPointerDownObservable.add(() => {
+          const input = document.createElement("input");
+          input.type = "file";
+
+          input.onchange = () => {
+            const files = Array.from(input.files);
+            const file = files[0];
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const contents = e.target.result;
+
+              //const myTop = scene.getMeshByName("newformal_shirt2");
+              let myTop = scene.getNodeByName("Cube_primitive1");
+              let shirtTexUser = new BABYLON.Texture(contents, scene);
+              shirtTexUser.vScale = -1; // Rotate 45 degrees clockwise
+              myTop.material.albedoTexture = shirtTexUser;
+              //shirtTexUser.name = "shirtTexUser";
+
+              //myTop.material.albedoTexture = shirtTexUser;
+            };
+            reader.readAsDataURL(file);
+          };
+          input.click();
+        });
+        UiPanel.addControl(button);
+
+        BABYLON.SceneLoader.ImportMeshAsync(
+          "",
+          "https://fashion-desings.s3.ap-south-1.amazonaws.com/common/casuals/tshirts/userchoice/",
+          "poster8.glb"
+        ).then(() => {});
+
+        return scene;
+      }
+    </script>
+  </body>
+</html>

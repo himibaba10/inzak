@@ -1,10 +1,36 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CrossIcon from "../../utils/CrossIcon";
 import PlayIcon from "../../utils/PlayIcon";
 
 const VirtualGround = ({ link, title }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [htmlContent, setHtmlContent] = useState("");
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    fetch("/virtualHTML/demoFirst1.html")
+      .then((response) => response.text())
+      .then((data) => {
+        setHtmlContent(data);
+      })
+      .catch((error) => console.error("Error fetching the HTML file:", error));
+  }, []);
+
+  useEffect(() => {
+    if (htmlContent && containerRef.current) {
+      // Set the innerHTML
+      containerRef.current.innerHTML = htmlContent;
+
+      // Extract and execute script tags
+      const scripts = containerRef.current.querySelectorAll("script");
+      scripts.forEach((script) => {
+        const newScript = document.createElement("script");
+        newScript.textContent = script.textContent;
+        script.parentNode.replaceChild(newScript, script);
+      });
+    }
+  }, [htmlContent, isOpen]);
 
   return (
     <>
@@ -12,24 +38,27 @@ const VirtualGround = ({ link, title }) => {
         <div className="h-screen w-full fixed top-0 left-0 z-50 bg-black/50">
           <div
             onClick={() => setIsOpen(false)}
-            className="absolute top-5 right-5 cursor-pointer"
+            className="absolute top-5 right-5 cursor-pointer z-10"
           >
             <CrossIcon />
           </div>
-          <iframe className="w-full h-full" src={link}></iframe>
+          <div ref={containerRef}></div>
         </div>
       )}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative rounded-xl overflow-hidden">
+        <div className="absolute text-white z-0 w-full h-full flex justify-center items-center text-2xl">
+          Loading
+        </div>
         <div
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer absolute w-full h-full bg-black/50 flex justify-end items-end p-2"
+          className="cursor-pointer absolute w-full h-full bg-black/50 flex justify-end items-end p-2 z-10"
         >
           <div className="absolute w-full h-full flex justify-center items-center">
             <PlayIcon />
           </div>
           <h3 className="text-2xl font-medium text-white">{title}</h3>
         </div>
-        <iframe className="w-full h-60 lg:h-80" src={link}></iframe>
+        <div ref={containerRef}></div>
       </div>
     </>
   );
