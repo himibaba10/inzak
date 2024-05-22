@@ -6,7 +6,6 @@
     <title>Image Popup with Babylon.js Scene</title>
     <style>
       #popup {
-        /* display: none; */
         position: fixed;
         top: 48%;
         left: 50%;
@@ -17,10 +16,22 @@
         z-index: 9999;
       }
 
+      #popup > span {
+        z-index: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5rem;
+      }
+
       /* Styling for the popup */
 
       /* Styling for the canvas */
       #babylonCanvas {
+        position: relative;
         width: 900px;
         height: 600px; /* Set the height according to your scene */
       }
@@ -29,6 +40,10 @@
         #babylonCanvas {
           width: 300px;
           height: 300px; /* Set the height according to your scene */
+        }
+
+        #popup > span {
+          font-size: 3rem;
         }
       }
 
@@ -73,13 +88,10 @@
       }
     </style>
   </head>
-  <!--  onload="showPopup()" -->
   <body>
-    <!-- Image as background -->
-    <h1 class="text-6xl">This is it</h1>
-
     <!-- Popup window -->
     <div id="popup">
+      <span>Loading...</span>
       <canvas id="babylonCanvas"></canvas>
     </div>
 
