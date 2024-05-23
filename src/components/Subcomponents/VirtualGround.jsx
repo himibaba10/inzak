@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import CrossIcon from "../../utils/CrossIcon";
 import PlayIcon from "../../utils/PlayIcon";
 
-const VirtualGround = ({ link, title }) => {
+const VirtualGround = ({ image, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [htmlContent, setHtmlContent] = useState("");
   const containerRef = useRef(null);
@@ -56,11 +56,7 @@ const VirtualGround = ({ link, title }) => {
           <h3 className="text-2xl font-medium text-white">{title}</h3>
         </div>
         <div>
-          <img
-            className="h-72 w-full object-cover"
-            src="/virtualHTML/ajio.webp"
-            alt=""
-          />
+          <img className="h-72 w-full object-cover" src={image} alt="" />
         </div>
       </div>
     </>
@@ -68,7 +64,7 @@ const VirtualGround = ({ link, title }) => {
 };
 
 VirtualGround.propTypes = {
-  link: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 
